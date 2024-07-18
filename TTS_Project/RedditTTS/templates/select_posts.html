@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{%block title%} Home {%endblock%}
+
+{%block content%}
+    <h1>RedditTTV</h1>
+    <br>
+    <form method="POST" action="{%url 'select_posts'%}">
+        {%csrf_token%}
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Enter a Reddit post or comment URL you wish to add to the timeline:</label>
+          <input type="url" class="form-control" name="reddit_url">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {%if queue%}
+    <br><br>
+        <p> Current timeline: </p>
+
+        <div class="accordion" id="accordionFlushExample">
+          {%for item in queue%}
+          
+          {%if item.type == 'post'%}
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                {{item.title}}
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                {{item.selftext}}
+              </div>
+            </div>
+          </div>
+          {%else%}
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Comment by {{item.author}}
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                {{item.body}}
+              </div>
+            </div>
+          </div>
+          {%endif%}
+
+          {%endfor%}
+        </div>
+
+    
+      <br>
+    <form method="POST" action="{%url 'gen_video'%}">
+        {%csrf_token%}
+        <label for="exampleInputEmail1" class="form-label">Happy with your timeline?</label><br>
+        <button type="submit" class="btn btn-primary">Generate Video!</button>
+    </form>
+
+    {%endif%}
+
+    
+{%endblock%}
