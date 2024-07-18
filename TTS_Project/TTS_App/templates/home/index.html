@@ -1,12 +1,11 @@
 {% extends "../base.html" %}
+{% load static %}
 
 {%block title%} Home {%endblock%}
 
 {%block content%}
-<div class="container">
     <h1>TextToVideo Generator</h1>
     <br>
     <p>Generate a text to speech video in minutes! Login to get started.</p>
-    <a class="btn btn-primary" href="{%url 'login'%}">Login</a>
-</div>
+    <a class="btn btn-primary" href="{%url 'login_user'%}">Login</a>
 {%endblock%}
